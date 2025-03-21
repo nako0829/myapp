@@ -1,6 +1,5 @@
 alabaster==0.7.10
 altair==4.1.0
-anaconda-navigator==1.6.9
 anaconda-project==0.8.0
 anyio==3.6.2
 argon2-cffi==21.3.0
