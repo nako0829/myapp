@@ -1,5 +1,3 @@
-pip --trusted-host pypi.org --trusted-host files.pythonhosted.org
-pip install --upgrade pip --trusted-host pypi.org --trusted-host files.pythonhosted.org
 alabaster==0.7.10
 altair==4.1.0
 anaconda-client==1.6.5
