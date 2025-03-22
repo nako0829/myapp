@@ -3,6 +3,9 @@ import numpy as np
 import pickle
 import pandas as pd  # 确保导入 pandas 库
 import os
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='sklearn')
+
 # Load the model and scaler
 try:
     with open(r"logistic_Reg.pkl", 'rb') as f:
