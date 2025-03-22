@@ -3,15 +3,23 @@ import numpy as np
 import pickle
 import pandas as pd  # 确保导入 pandas 库
 import os
-# Load the model and scaler
-try:
-    with open(r'D:\app\logistic_Reg.pkl', 'rb') as f:
-        model = pickle.load(f)
-    with open(r'D:\app\scaler.pkl', 'rb') as f:
-        scaler = pickle.load(f)
-except FileNotFoundError as e:
-    st.error(f"Failed to load model files: {str(e)}")
-    st.stop()
+
+# 获取脚本所在目录
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# 加载模型和Scaler的函数
+def load_model(file_name):
+    file_path = os.path.join(script_dir, "models", file_name)
+    try:
+        with open(file_path, 'rb') as f:
+            return pickle.load(f)
+    except FileNotFoundError as e:
+        st.error(f"Failed to load model file: {file_path}\nError: {str(e)}")
+        st.stop()
+
+# 加载模型和Scaler
+model = load_model("logistic_Reg.pkl")
+scaler = load_model("scaler.pkl")
 
 # Set the page title
 st.title("Predict Pre-sarcopenia in Metabolic Syndrome")
@@ -27,11 +35,6 @@ sex = st.selectbox("Sex", options=[1, 2], format_func=lambda x: 'Male' if x == 1
 # Prediction logic
 if st.button("Predict"):
     try:
-        # Input validation
-        if any([val == 0 for val in [height, waist, thigh_length, alp]]):
-            st.warning("Input values cannot be zero. Please check your inputs!")
-            st.stop()
-
         # Format input data
         input_data = np.array([[height, waist, thigh_length, alp, sex]])
         
@@ -51,14 +54,12 @@ if st.button("Predict"):
         
         # Display results
         st.subheader("Prediction Result")
-        threshold = 0.5
-        
         if prediction[0] == 1:
             st.success(f"**Positive Prediction (Probability: {positive_prob:.2%})**")
             st.markdown("""
             **Diagnosis**: Metabolic Syndrome with Pre-sarcopenia  
             **Recommendations**: 
-            - Recommend muscle mass assessment
+            - Muscle mass assessment
             - Increase protein intake
             - Regular metabolic monitoring
             """)
@@ -71,15 +72,13 @@ if st.button("Predict"):
             - Regular metabolic monitoring
             - Engage in preventive exercise
             """)
-            
+
         # Visualization
         probabilities_dict = {
             "Positive Probability": [positive_prob],
             "Negative Probability": [1 - positive_prob]
         }
-
         probabilities_df = pd.DataFrame.from_dict(probabilities_dict)
-
         st.bar_chart(probabilities_df)
         
     except Exception as e:
