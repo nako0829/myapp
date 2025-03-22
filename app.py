@@ -5,9 +5,9 @@ import pandas as pd  # 确保导入 pandas 库
 
 # Load the model and scaler
 try:
-    with open(r'D:\logistic_Reg.pkl', 'rb') as f:
+    with open(r'D:/logistic_Reg.pkl', 'rb') as f:
         model = pickle.load(f)
-    with open(r'D:\scaler.pkl', 'rb') as f:
+    with open(r'D:/scaler.pkl', 'rb') as f:
         scaler = pickle.load(f)
 except FileNotFoundError as e:
     st.error(f"Failed to load model files: {str(e)}")
