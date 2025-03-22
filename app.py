@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pickle
 import pandas as pd  # 确保导入 pandas 库
-
+import os
 # Load the model and scaler
 try:
     with open(r'D:\app\logistic_Reg.pkl', 'rb') as f:
